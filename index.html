@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 디저트 레시피 & 맞춤 베이킹 클래스 | 경민대학교 카페베이커리과</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Playfair+Display:ital,wght@0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        wood: {
+                            50: '#fbf9f6',
+                            100: '#f3efe8',
+                            200: '#e4d8c8',
+                            600: '#8c684d',
+                            800: '#4a3324',
+                            900: '#322116',
+                        },
+                        cream: {
+                            50: '#fdfcf9',
+                            100: '#f8f6f0',
+                            200: '#eee9dd',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Noto Sans KR', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #f8f6f0;
+            color: #322116;
+            font-family: 'Noto Sans KR', sans-serif;
+            word-break: keep-all;
+        }
+        .wood-gradient {
+            background: linear-gradient(135deg, #4a3324 0%, #322116 100%);
+        }
+        .card-shadow {
+            box-shadow: 0 12px 35px -5px rgba(50, 33, 22, 0.09);
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between antialiased relative">
+
+    <!-- Header Section -->
+    <header class="bg-white border-b border-wood-200 sticky top-0 z-40 shadow-sm py-4">
+        <div class="max-w-5xl mx-auto px-4 flex flex-row justify-between items-center gap-2">
+            <div>
+                <span class="inline-block bg-wood-100 text-wood-800 text-[10px] sm:text-xs px-2.5 py-0.5 rounded-full font-bold border border-wood-200 mb-1">
+                    2026 AI 창업 두드림(Do-dream) 출품작
+                </span>
+                <h1 class="text-base sm:text-2xl font-black text-wood-900 tracking-tight">
+                    경민대학교 카페베이커리과
+                </h1>
+            </div>
+            <div class="flex items-center space-x-1.5 text-[11px] sm:text-xs text-wood-600 bg-wood-50 px-2.5 py-1.5 rounded-full border border-wood-200 whitespace-nowrap">
+                <i class="fa-solid fa-graduation-cap text-amber-600"></i>
+                <span class="hidden sm:inline">AI Baking Recipe & Class Platform</span>
+                <span class="sm:hidden">AI Baking Class</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-5xl mx-auto px-4 py-8 sm:py-12 flex-grow w-full">
+        
+        <!-- Hero Section -->
+        <div class="text-center mb-8 sm:mb-10">
+            <span class="font-serif italic text-wood-600 text-xs sm:text-base mb-2 block">Personalized Baking & Pepero Day Class Curation</span>
+            <h2 class="text-xl sm:text-4xl font-black text-wood-900 mb-3 leading-snug">
+                당신의 순간을 달콤하게 채우는 <br>AI 맞춤 디저트 레시피 & 클래스
+            </h2>
+            <p class="text-wood-600 text-xs sm:text-base max-w-2xl mx-auto leading-relaxed">
+                제과와 제빵 특성에 완벽히 맞춘 정밀 그램 배합표와 품목별 맞춤 10단계 마스터 공정이 제공됩니다.
+            </p>
+        </div>
+
+        <!-- AI Control Box -->
+        <div class="bg-white rounded-3xl p-5 sm:p-10 border border-wood-200 card-shadow mb-8 sm:mb-12">
+            <div class="flex items-center justify-between mb-5 sm:mb-6 pb-3 sm:pb-4 border-b border-wood-100">
+                <h3 class="text-sm sm:text-lg font-bold text-wood-900 flex items-center">
+                    <i class="fa-solid fa-wand-magic-sparkles text-wood-600 mr-2"></i>
+                    AI 베이킹 진단 센터
+                </h3>
+                <span class="text-[11px] sm:text-xs bg-amber-100 text-amber-900 px-2.5 py-1 rounded-full font-bold">
+                    🍫 빼빼로데이 스페셜 오픈
+                </span>
+            </div>
+
+            <!-- 1. Purpose Selector -->
+            <div class="mb-6">
+                <label class="block text-xs font-bold text-wood-600 uppercase tracking-wider mb-2">1. 만들고자 하는 디저트 목적</label>
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5 sm:gap-3">
+                    <button type="button" onclick="selectPurpose('gift')" id="purpose-gift" class="purpose-btn p-3.5 rounded-2xl border-2 border-wood-800 bg-wood-100 font-bold text-xs sm:text-sm text-wood-900 text-left transition cursor-pointer">
+                        <div class="flex items-center justify-between mb-1">
+                            <span>🎁 특별한 분께 선물용</span>
+                            <i class="fa-solid fa-gift text-wood-600"></i>
+                        </div>
+                        <p class="text-[10px] text-wood-600 font-normal">고급 패키징 & 하이엔드 디저트</p>
+                    </button>
+                    <button type="button" onclick="selectPurpose('personal')" id="purpose-personal" class="purpose-btn p-3.5 rounded-2xl border-2 border-wood-200 bg-cream-50 font-medium text-xs sm:text-sm text-wood-700 text-left transition cursor-pointer">
+                        <div class="flex items-center justify-between mb-1">
+                            <span>🍰 나만을 위한 디저트</span>
+                            <i class="fa-solid fa-utensils text-wood-600"></i>
+                        </div>
+                        <p class="text-[10px] text-wood-600 font-normal">홈카페 베이커리 & 힐링 중심</p>
+                    </button>
+                    <button type="button" onclick="selectPurpose('pepero')" id="purpose-pepero" class="purpose-btn p-3.5 rounded-2xl border-2 border-wood-200 bg-cream-50 font-medium text-xs sm:text-sm text-wood-700 text-left transition cursor-pointer">
+                        <div class="flex items-center justify-between mb-1">
+                            <span>🍫 빼빼로데이 전용 특강</span>
+                            <i class="fa-solid fa-heart text-wood-600"></i>
+                        </div>
+                        <p class="text-[10px] text-wood-600 font-normal">수제 초코 스틱 한정 클래스</p>
+                    </button>
+                </div>
+            </div>
+
+            <!-- 2. Target Selector -->
+            <div class="mb-6">
+                <label class="block text-xs font-bold text-wood-600 uppercase tracking-wider mb-2">2. 선물/음용 대상</label>
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-3">
+                    <button type="button" onclick="selectTarget('lover')" id="target-lover" class="target-btn py-2.5 px-3 rounded-xl border-2 border-wood-800 bg-wood-100 font-bold text-xs text-wood-900 text-center cursor-pointer">
+                        💖 연인/배우자
+                    </button>
+                    <button type="button" onclick="selectTarget('friend')" id="target-friend" class="target-btn py-2.5 px-3 rounded-xl border-2 border-wood-200 bg-cream-50 font-medium text-xs text-wood-700 text-center cursor-pointer">
+                        🤝 친구/동료
+                    </button>
+                    <button type="button" onclick="selectTarget('family')" id="target-family" class="target-btn py-2.5 px-3 rounded-xl border-2 border-wood-200 bg-cream-50 font-medium text-xs text-wood-700 text-center cursor-pointer">
+                        🏡 부모님/가족
+                    </button>
+                    <button type="button" onclick="selectTarget('myself')" id="target-myself" class="target-btn py-2.5 px-3 rounded-xl border-2 border-wood-200 bg-cream-50 font-medium text-xs text-wood-700 text-center cursor-pointer">
+                        ☕ 나 자신 (힐링)
+                    </button>
+                </div>
+            </div>
+
+            <!-- 3. Skill Level Slider -->
+            <div class="mb-6 sm:mb-8 bg-cream-50 p-5 rounded-2xl border border-wood-200">
+                <div class="flex justify-between items-center mb-2">
+                    <label class="text-xs font-bold text-wood-700 uppercase tracking-wider">3. 나의 베이킹 숙련도</label>
+                    <span id="level-val" class="text-xs font-bold text-wood-900 bg-white px-2.5 py-1 rounded-md border border-wood-200">초급 (오븐만 있으면 가능)</span>
+                </div>
+                <input type="range" id="skill-level" min="1" max="3" value="1" oninput="updateLevel()" class="w-full accent-wood-800 cursor-pointer">
+            </div>
+
+            <!-- Action Button -->
+            <button type="button" onclick="generateRecipe()" class="w-full wood-gradient text-white py-3.5 sm:py-4 rounded-2xl font-bold text-sm sm:text-base hover:opacity-95 transition flex items-center justify-center space-x-2 shadow-lg cursor-pointer">
+                <i class="fa-solid fa-arrows-rotate text-amber-300"></i>
+                <span>내 숙련도에 딱 맞는 맞춤형 레시피 생성하기</span>
+            </button>
+        </div>
+
+        <!-- Result Section -->
+        <div id="result-box" class="hidden bg-white rounded-3xl p-5 sm:p-10 border-2 border-wood-800 card-shadow mb-8 sm:mb-12">
+            <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between border-b border-wood-200 pb-4 sm:pb-5 mb-5 sm:mb-6 gap-3">
+                <div>
+                    <span class="text-xs font-bold text-wood-600 uppercase tracking-wider">AI Baking Curation Result</span>
+                    <h4 class="text-xl sm:text-2xl font-black text-wood-900">당신을 위한 최적의 디저트 솔루션</h4>
+                </div>
+                <span id="match-tag" class="bg-amber-100 text-amber-900 text-xs px-3.5 py-1.5 rounded-full font-bold border border-amber-200">
+                    🎁 선물용 레시피 추천 완료
+                </span>
+            </div>
+
+            <!-- Grid 2 Cards: Recipe + Class -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6 mb-6">
+                <!-- Recipe Card -->
+                <div class="bg-cream-100 rounded-2xl p-5 sm:p-6 border border-wood-200 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center space-x-3 mb-3">
+                            <div class="w-10 sm:w-12 h-10 sm:h-12 rounded-2xl bg-wood-200 flex items-center justify-center text-wood-800 text-lg sm:text-xl shadow-sm flex-shrink-0">
+                                <i id="recipe-icon" class="fa-solid fa-cookie-bite"></i>
+                            </div>
+                            <div>
+                                <span class="text-[10px] sm:text-xs text-wood-600 font-bold uppercase">AI Recommended Recipe</span>
+                                <h5 id="recipe-title" class="text-base sm:text-xl font-bold text-wood-900">레시피 이름</h5>
+                            </div>
+                        </div>
+                        <p id="recipe-desc" class="text-xs sm:text-sm text-wood-700 leading-relaxed mb-4">레시피 설명</p>
+                        <div class="bg-white p-3 rounded-xl border border-wood-200 text-xs text-wood-800 space-y-1 mb-4">
+                            <div><strong>🕒 소요 시간:</strong> <span id="recipe-time">약 40분</span></div>
+                            <div><strong>🛒 난이도:</strong> <span id="recipe-diff">★☆☆ (초급 과정)</span></div>
+                        </div>
+                    </div>
+                    <button type="button" onclick="openRecipeModal()" class="w-full bg-wood-800 text-white py-2.5 rounded-xl font-bold text-xs hover:bg-wood-900 transition cursor-pointer">
+                        📖 표준 배합표 & 10단계 마스터 공정 보기
+                    </button>
+                </div>
+
+                <!-- One-day Class Card -->
+                <div class="bg-cream-100 rounded-2xl p-5 sm:p-6 border border-wood-200 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center space-x-3 mb-3">
+                            <div class="w-10 sm:w-12 h-10 sm:h-12 rounded-2xl bg-wood-200 flex items-center justify-center text-wood-800 text-lg sm:text-xl shadow-sm flex-shrink-0">
+                                <i class="fa-solid fa-graduation-cap"></i>
+                            </div>
+                            <div>
+                                <span class="text-[10px] sm:text-xs text-wood-600 font-bold uppercase">Kyungmin Univ. Class</span>
+                                <h5 id="class-title" class="text-base sm:text-xl font-bold text-wood-900">클래스 타이틀</h5>
+                            </div>
+                        </div>
+                        <p id="class-desc" class="text-xs sm:text-sm text-wood-700 leading-relaxed mb-4">
+                            경민대학교 카페베이커리과 실습실에서 직접 진행되는 실습 과정입니다.
+                        </p>
+                        <div class="bg-white p-3 rounded-xl border border-wood-200 text-xs text-wood-800 space-y-1 mb-4">
+                            <div><strong>📍 장소:</strong> 경민대학교 창업관 베이커리 실습실</div>
+                            <div><strong>💵 수강료:</strong> <span id="class-price" class="text-amber-900 font-bold">35,000원</span></div>
+                        </div>
+                    </div>
+                    <button type="button" onclick="openClassModal()" class="w-full bg-amber-800 text-white py-2.5 rounded-xl font-bold text-xs hover:bg-amber-800 transition cursor-pointer">
+                        🎟️ 원데이 클래스 수강 신청하기
+                    </button>
+                </div>
+            </div>
+
+            <!-- AI Tip Box -->
+            <div class="bg-wood-50 p-4 sm:p-5 rounded-2xl border border-wood-200 text-xs sm:text-sm text-wood-800 leading-relaxed">
+                <div class="flex items-center font-bold text-wood-900 mb-1">
+                    <i class="fa-solid fa-lightbulb text-amber-600 mr-2"></i>
+                    <span>AI 전공 꿀팁 & 맞춤 배합 가이드 안내</span>
+                </div>
+                <p id="ai-tip" class="text-wood-700 text-xs sm:text-sm">선택하신 디저트의 품목 특성에 맞춘 정밀 배합표와 10단계 마스터 공정이 설정되었습니다.</p>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal 1: Recipe & Kit Detail -->
+    <div id="recipe-modal" class="hidden fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl p-6 sm:p-8 max-w-2xl w-full card-shadow border border-wood-200 max-h-[90vh] overflow-y-auto">
+            <div class="flex justify-between items-center mb-4 pb-3 border-b border-wood-100 sticky top-0 bg-white z-10">
+                <div>
+                    <span class="text-[10px] font-bold text-wood-600 uppercase">Kyungmin Bakery AI Master Recipe</span>
+                    <h3 class="font-bold text-lg sm:text-xl text-wood-900" id="modal-recipe-title">상세 레시피</h3>
+                </div>
+                <button type="button" onclick="closeRecipeModal()" class="text-gray-400 hover:text-wood-900 text-2xl font-bold cursor-pointer">&times;</button>
+            </div>
+
+            <div class="space-y-4 text-xs sm:text-sm text-wood-800">
+                <!-- 1. Gram Formulation Tables -->
+                <div class="bg-cream-50 p-4 rounded-2xl border border-wood-200 space-y-3">
+                    <div>
+                        <strong class="block font-bold text-wood-900 mb-1.5 text-xs sm:text-sm flex items-center">
+                            <i class="fa-solid fa-scale-balanced text-wood-600 mr-2"></i> 1. 메인 반죽 표준 그램 배합표
+                        </strong>
+                        <div id="modal-recipe-formula" class="text-xs text-wood-700 leading-relaxed font-mono bg-white p-3 rounded-xl border border-wood-200">배합표 정보</div>
+                    </div>
+                    <!-- Sub Formula Box -->
+                    <div id="sub-formula-box" class="hidden pt-2 border-t border-wood-200">
+                        <strong id="sub-formula-title" class="block font-bold text-wood-900 mb-1.5 text-xs sm:text-sm flex items-center">
+                            <i class="fa-solid fa-bowl-food text-amber-600 mr-2"></i> 2. 서브 배합표
+                        </strong>
+                        <div id="modal-sub-formula" class="text-xs text-wood-700 leading-relaxed font-mono bg-white p-3 rounded-xl border border-wood-200">서브 배합표 정보</div>
+                    </div>
+                </div>
+
+                <!-- 2. Baking Conditions -->
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+                    <div class="bg-amber-50 p-3 rounded-xl border border-amber-200">
+                        <strong class="block font-bold text-amber-900 mb-1 text-[11px]">🔥 오븐 온도</strong>
+                        <span id="modal-oven-temp" class="text-xs text-amber-800 font-bold">180℃ / 160℃</span>
+                    </div>
+                    <div class="bg-amber-50 p-3 rounded-xl border border-amber-200">
+                        <strong class="block font-bold text-amber-900 mb-1 text-[11px]">⏱️ 굽는 시간</strong>
+                        <span id="modal-bake-time" class="text-xs text-amber-800 font-bold">약 18분 ~ 20분</span>
+                    </div>
+                    <div class="bg-amber-50 p-3 rounded-xl border border-amber-200">
+                        <strong id="time-label" class="block font-bold text-amber-900 mb-1 text-[11px]">⏳ 휴지/발효 조건</strong>
+                        <span id="modal-rest-time" class="text-xs text-amber-800 font-bold">냉장 휴지 60분</span>
+                    </div>
+                </div>
+
+                <!-- 3. Ultra-Detailed 10+ Steps -->
+                <div class="bg-wood-50 p-4 rounded-2xl border border-wood-200">
+                    <strong class="block font-bold text-wood-900 mb-2.5 text-xs sm:text-sm flex items-center">
+                        <i class="fa-solid fa-list-check text-wood-800 mr-2"></i> 품목별 맞춤 현업 표준 10단계 마스터 공정
+                    </strong>
+                    <ol class="space-y-2.5 text-xs text-wood-700 leading-relaxed" id="modal-recipe-steps"></ol>
+                </div>
+
+                <!-- 4. One-click Kit Info -->
+                <div class="bg-amber-50/70 p-3.5 rounded-2xl border border-amber-200">
+                    <strong class="block font-bold text-amber-900 mb-1 text-xs flex items-center">
+                        <i class="fa-solid fa-box-open mr-1.5"></i> 원클릭 맞춤 밀키트 구성
+                    </strong>
+                    <p class="text-xs text-amber-800 leading-relaxed" id="modal-kit-info">키트 정보</p>
+                </div>
+            </div>
+
+            <div class="mt-6 flex space-x-2">
+                <button type="button" onclick="alert('제휴 재료 맞춤 밀키트 구매 페이지로 이동합니다!')" class="flex-1 bg-wood-800 text-white py-3 rounded-xl font-bold text-xs sm:text-sm hover:bg-wood-900 transition cursor-pointer flex items-center justify-center space-x-2">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                    <span>원클릭 맞춤 밀키트 구매하기</span>
+                </button>
+                <button type="button" onclick="closeRecipeModal()" class="px-5 bg-gray-200 text-wood-800 py-3 rounded-xl font-bold text-xs sm:text-sm hover:bg-gray-300 transition cursor-pointer">
+                    닫기
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal 2: One-day Class Application -->
+    <div id="class-modal" class="hidden fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl p-6 sm:p-8 max-w-lg w-full card-shadow border border-wood-200">
+            <div class="flex justify-between items-center mb-4 pb-2 border-b border-wood-100">
+                <h3 class="font-bold text-lg text-wood-900" id="modal-class-title">원데이 클래스 수강 신청</h3>
+                <button type="button" onclick="closeClassModal()" class="text-gray-400 hover:text-wood-900 text-xl font-bold cursor-pointer">&times;</button>
+            </div>
+            <div class="space-y-3 text-xs sm:text-sm text-wood-800">
+                <div class="bg-amber-50 p-3.5 rounded-xl border border-amber-200 text-amber-900">
+                    <p class="font-bold mb-1" id="modal-class-subtitle">📍 원데이 클래스 수강 신청</p>
+                    <p class="text-xs opacity-90">경민대학교 카페베이커리과 전공 실습실에서 1:1 밀착 코칭으로 진행됩니다.</p>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-wood-700 mb-1">신청자 성함</label>
+                    <input type="text" id="app-name" placeholder="홍길동" class="w-full p-2.5 rounded-xl border border-wood-200 text-xs focus:outline-none focus:border-wood-800">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-wood-700 mb-1">연락처</label>
+                    <input type="text" id="app-phone" placeholder="010-1234-5678" class="w-full p-2.5 rounded-xl border border-wood-200 text-xs focus:outline-none focus:border-wood-800">
+                </div>
+            </div>
+            <div class="mt-6 flex space-x-2">
+                <button type="button" onclick="submitClassApp()" class="flex-1 bg-amber-800 text-white py-3 rounded-xl font-bold text-xs hover:bg-amber-800 transition cursor-pointer">
+                    🎟️ 수강 신청 제출하기
+                </button>
+                <button type="button" onclick="closeClassModal()" class="px-4 bg-gray-200 text-wood-800 py-3 rounded-xl font-bold text-xs hover:bg-gray-300 transition cursor-pointer">
+                    취소
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="wood-gradient text-wood-200 py-6 sm:py-8 text-center text-xs border-t border-wood-800">
+        <div class="max-w-5xl mx-auto px-4">
+            <p class="font-bold text-white text-xs sm:text-sm mb-1">© 2026 AI 창업 두드림(Do-dream) 경진대회 출품작</p>
+            <p class="text-wood-200 opacity-80 text-[11px] sm:text-xs">경민대학교 카페베이커리과 (Kyungmin University Cafe Bakery & Pastry Arts)</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript Logic: Accurate Product-Specific Step 4 & Strict Fermentation Conditions -->
+    <script>
+        let currentPurpose = 'gift';
+        let currentTarget = 'lover';
+        let usedIndices = { gift: {1:[], 2:[], 3:[]}, personal: {1:[], 2:[], 3:[]}, pepero: {1:[], 2:[], 3:[]} };
+        let currentData = null;
+
+        function selectPurpose(purpose) {
+            currentPurpose = purpose;
+            document.querySelectorAll('.purpose-btn').forEach(btn => {
+                btn.classList.remove('border-wood-800', 'bg-wood-100', 'font-bold');
+                btn.classList.add('border-wood-200', 'bg-cream-50', 'font-medium');
+            });
+            const selected = document.getElementById('purpose-' + purpose);
+            if (selected) {
+                selected.classList.remove('border-wood-200', 'bg-cream-50', 'font-medium');
+                selected.classList.add('border-wood-800', 'bg-wood-100', 'font-bold');
+            }
+        }
+
+        function selectTarget(target) {
+            currentTarget = target;
+            document.querySelectorAll('.target-btn').forEach(btn => {
+                btn.classList.remove('border-wood-800', 'bg-wood-100', 'font-bold');
+                btn.classList.add('border-wood-200', 'bg-cream-50', 'font-medium');
+            });
+            const selected = document.getElementById('target-' + target);
+            if (selected) {
+                selected.classList.remove('border-wood-200', 'bg-cream-50', 'font-medium');
+                selected.classList.add('border-wood-800', 'bg-wood-100', 'font-bold');
+            }
+        }
+
+        function updateLevel() {
+            const val = document.getElementById('skill-level').value;
+            const labels = {
+                1: '초급 (오븐만 있으면 밀키트 활용 가능)',
+                2: '중급 (공정 및 반죽 제법 직접 제어)',
+                3: '고급 (템퍼링, 밀랍 코팅, 프로 파티시에 마스터)'
+            };
+            document.getElementById('level-val').innerText = labels[val];
+        }
+
+        // 품목별 제과(휴지) / 제빵(발효) 엄격 분리 및 맞춤형 4단계 공정 반영 함수
+        function getProductDetailedSpec(menuName) {
+            if(menuName.includes("타르트")) {
+                return {
+                    formula: "• 박력분: 130g\n• 무염버터: 70g\n• 슈가파우더: 35g\n• 계란 노른자: 20g (1개)\n• 소금: 1g",
+                    subTitle: "2. 아몬드 크림 배합표 (필링)",
+                    subFormula: "• 아몬드가루: 50g\n• 무염버터: 50g\n• 유기농 설탕: 50g\n• 전란(계란): 50g (1개)\n• 바닐라 페이스트: 2g",
+                    ovenTemp: "175℃ / 165℃ (상하단 열선)",
+                    bakeTime: "약 22분 ~ 25분",
+                    timeLabel: "⏳ 반죽 휴지 조건",
+                    restTime: "냉장 휴지 60분 이상",
+                    steps: [
+                        "1단계 (재료 계량 및 전처리): 타르트지 및 아몬드 크림 재료를 전자저울을 이용해 그램(g) 단위까지 정확하게 계량합니다.",
+                        "2단계 (사블리에 반죽 만들기): 차가운 무염버터(70g)를 깍둑 썰어 체 친 박력분, 슈가파우더, 소금에 넣고 스크래퍼로 쌀알 크기의 모래알 상태를 만듭니다.",
+                        "3단계 (반죽 뭉치기 및 냉장 휴지): 계란 노른자(20g)를 넣고 뭉친 뒤 비닐에 싸서 냉장고에서 최소 1시간 동안 휴지합니다.",
+                        "4단계 (타르트지 밀어 펴기): 휴지된 타르트 반죽을 밀대를 이용하여 3mm 두께로 원형이 되도록 고르게 밀어 폅니다.",
+                        "5단계 (아몬드 크림 버터 풀기): 실온에 두어 부드러워진 아몬드크림용 무염버터(50g)를 주걱으로 부드럽게 풉니다.",
+                        "6단계 (아몬드 크림 휘핑): 설탕(50g)을 나누어 넣으며 핸드믹서로 아이보리빛 크림 상태가 되도록 휘핑합니다.",
+                        "7단계 (아몬드 크림 완성): 실온 계란(50g)을 나누어 넣고 분리되지 않게 섞은 뒤, 아몬드가루(50g)와 바닐라페이스트(2g)를 섞어 아몬드크림을 완성합니다.",
+                        "8단계 (타르트 성형 및 충전): 밀어 펴 낸 반죽을 타르트 링에 안착시키고 아몬드 크림을 70% 높이로 채워 평평하게 정리합니다.",
+                        "9단계 (오븐 굽기): 175℃로 예열된 오븐에 넣고 22~25분간 황금빛 갈색이 돌 때까지 구워냅니다.",
+                        "10단계 (틀 분리 및 냉각): 10분간 식힌 뒤 타르트 링을 분리하고 그물망에서 완전히 식혀 완성합니다."
+                    ]
+                };
+            } else if(menuName.includes("마카롱")) {
+                return {
+                    formula: "• 아몬드가루: 100g\n• 슈가파우더: 90g\n• 흰자(알끈 제거): 75g\n• 설탕(머랭용): 75g",
+                    subTitle: "2. 라즈베리 가나슈 배합표 (필링)",
+                    subFormula: "• 라즈베리 퓨레: 80g\n• 화이트초콜릿: 120g\n• 무염버터: 30g",
+                    ovenTemp: "150℃ / 140℃ (대류 팬 오븐)",
+                    bakeTime: "약 13분 ~ 15분",
+                    timeLabel: "⏳ 꼬끄 건조 조건",
+                    restTime: "실온 표면 건조 25분",
+                    steps: [
+                        "1단계 (재료 계량 및 체질): 아몬드가루와 슈가파우더를 함께 계량하여 고운 체에 2회 이상 내립니다.",
+                        "2단계 (머랭 초벌 휘핑): 흰자(75g)를 저속으로 풀고 설탕(75g)을 3번에 나누어 투입하며 휘핑합니다.",
+                        "3단계 (단단한 머랭 완성): 거품기를 들어 올렸을 때 묵직하고 끝이 곧게 서는 단단한 뿔 모양의 머랭을 완성합니다.",
+                        "4단계 (마카로나주 농도 조절): 체 친 가루류를 머랭에 넣고 주걱으로 섞어 계단 모양으로 매끄럽고 천천히 흘러내리도록 반죽 상태를 맞춥니다.",
+                        "5단계 (팬닝 작업): 1cm 원형 깍지를 낀 짤주머니로 테프론 시트에 일정한 크기로 수직 짜기 합니다.",
+                        "6단계 (표면 건조): 손으로 만졌을 때 반죽이 전혀 묻어나지 않는 단단한 막이 생길 때까지 실온에서 25분간 건조합니다.",
+                        "7단계 (오븐 굽기): 150℃ 예열된 오븐에서 13~15분간 구워 밑면에 예쁜 삐에(발)가 올라오도록 합니다.",
+                        "8단계 (가나슈 필링 제조): 따뜻하게 데운 라즈베리 퓨레(80g)를 화이트초콜릿(120g)에 부어 녹이고 버터(30g)를 섞습니다.",
+                        "9단계 (샌드 작업): 완전히 식은 꼬끄 사이에 완성된 라즈베리 가나슈 필링을 적당량 짜서 샌드합니다.",
+                        "10단계 (냉장 숙성): 밀폐용기에 담아 냉장실에서 24시간 동안 숙성하여 쫀득한 식감을 완성합니다."
+                    ]
+                };
+            } else if(menuName.includes("까눌레")) {
+                return {
+                    formula: "• 우유: 250ml\n• 설탕: 120g\n• 박력분: 60g\n• 계란 노른자: 40g (2개)\n• 무염버터: 15g\n• 바닐라빈: 1개\n• 럼주: 10ml",
+                    subTitle: "2. 동틀 코팅용 재료 (가니쉬/코팅)",
+                    subFormula: "• 밀랍 블록: 20g (또는 무염버터 30g)",
+                    ovenTemp: "210℃ / 190℃ (고온 단기 스펙)",
+                    bakeTime: "약 50분 ~ 55분",
+                    timeLabel: "⏳ 반죽 숙성 조건",
+                    restTime: "냉장 숙성 24시간",
+                    steps: [
+                        "1단계 (재료 계량): 까눌레 반죽의 모든 재료를 정확하게 그램 수에 맞춰 계량합니다.",
+                        "2단계 (바닐라 우유 데우기): 우유, 버터, 바닐라빈을 냄비에 넣고 가장자리가 끓어오를 때까지 데운 후 불을 끕니다.",
+                        "3단계 (반죽 멍울 풀기): 박력분과 설탕에 노른자를 섞고, 따뜻한 바닐라 우유를 나누어 부어가며 매끄럽게 섞습니다.",
+                        "4단계 (동틀 밀랍 코팅): 따뜻하게 데운 까눌레 동틀 안쪽에 녹인 밀랍이나 버터를 얇고 완벽하게 칠해줍니다.",
+                        "5단계 (반죽 숙성): 반죽에 랩을 밀착시켜 냉장고에서 24시간 동안 휴지시킵니다.",
+                        "6단계 (체 거르기 및 팬닝): 숙성된 반죽을 고운 체에 걸러 동틀의 90% 높이까지 채워 담습니다.",
+                        "7단계 (고온 굽기 1단계): 210℃로 강력하게 예열된 오븐에 넣고 15분간 구워 반죽이 위로 솟아오르게 합니다.",
+                        "8단계 (온도 조절 굽기 2단계): 190℃로 온도를 낮추어 35~40분간 더 구워 짙은 갈색의 외관을 만듭니다.",
+                        "9단계 (탈형 및 냉각): 오븐에서 꺼내어 즉시 탈형하고 철망에서 완전히 식힙니다.",
+                        "10단계 (최종 완성): 겉바속촉 식감이 완성된 까눌레를 패키징합니다."
+                    ]
+                };
+            } else if(menuName.includes("휘낭시에")) {
+                return {
+                    formula: "• 흰자: 90g\n• 유기농 설탕: 85g\n• 아몬드가루: 45g\n• 박력분: 35g\n• 무염버터: 90g",
+                    subTitle: "2. 피칸 토핑 배합표 (가니쉬)",
+                    subFormula: "• 토핑용 피칸: 40g (전처리 로스팅)",
+                    ovenTemp: "190℃ / 180℃",
+                    bakeTime: "약 12분 ~ 15분",
+                    timeLabel: "⏳ 반죽 휴지 조건",
+                    restTime: "냉장 휴지 30분",
+                    steps: [
+                        "1단계 (재료 계량): 흰자, 설탕, 아몬드가루, 박력분, 버터, 피칸을 정확히 계량합니다.",
+                        "2단계 (뵈르 누아제트 제조): 무염버터(90g)를 중불에서 끓여 헤이즐넛 향의 갈색 태운 버터를 만들고 60℃로 식힙니다.",
+                        "3단계 (반죽 믹싱): 볼에 흰자와 설탕을 넣고 설탕이 녹을 정도로만 거품 없이 가볍게 섞습니다.",
+                        "4단계 (가루류 혼합): 체 친 아몬드가루와 박력분을 넣고 날가루가 안 보일 때까지 섞습니다.",
+                        "5단계 (버터 유화): 식혀둔 태운 버터를 나누어 넣으며 반죽과 완전히 유화시켜 윤기를 줍니다.",
+                        "6단계 (반죽 휴지): 짤주머니에 담아 냉장고에서 30분간 휴지시킵니다.",
+                        "7단계 (틀 준비): 휘낭시에 틀에 녹인 버터를 꼼꼼히 칠합니다.",
+                        "8단계 (팬닝 및 토핑): 틀의 80% 높이로 반죽을 짜고 전처리한 피칸을 하나씩 올립니다.",
+                        "9단계 (오븐 굽기): 190℃ 예열 오븐에서 12~15분간 구워 배꼽이 볼록하게 솟아오르게 합니다.",
+                        "10단계 (탈형): 오븐에서 꺼내어 즉시 틀에서 분리하고 그물망에서 식혀 완성합니다."
+                    ]
+                };
+            } else if(menuName.includes("스콘")) {
+                return {
+                    formula: "• 박력분: 200g\n• 차가운 무염버터: 80g\n• 설탕: 35g\n• 베이킹파우더: 6g\n• 소금: 2g\n• 우유: 70ml\n• 생크림: 30ml",
+                    subTitle: "2. 얼그레이 부재료 배합표 (가니쉬/필링)",
+                    subFormula: "• 얼그레이 찻잎: 5g (우유 침출용)",
+                    ovenTemp: "190℃ / 180℃",
+                    bakeTime: "약 18분 ~ 20분",
+                    timeLabel: "⏳ 반죽 휴지 조건",
+                    restTime: "냉장 휴지 20분",
+                    steps: [
+                        "1단계 (재료 계량): 박력분, 버터, 설탕, 베이킹파우더, 소금, 우유, 생크림, 찻잎을 계량합니다.",
+                        "2단계 (가루류 체질): 박력분, 베이킹파우더, 설탕, 소금을 함께 골고루 섞습니다.",
+                        "3단계 (버터 다지기): 차가운 버터를 깍둑 썰어 넣고 스크래퍼로 다져 모래알 상태를 만듭니다.",
+                        "4단계 (액체류 혼합): 우유와 생크림에 얼그레이 찻잎을 우려내어 준비합니다.",
+                        "5단계 (반죽 뭉치기): 가루 중앙에 액체류를 붓고 주걱으로 칼로 자르듯 섞어 날가루가 보이게 합니다.",
+                        "6단계 (결 성형): 반죽을 밀어 접고 포개는 과정을 3회 반복하여 결 구조를 만듭니다.",
+                        "7단계 (커팅): 높이 2.5cm의 삼각형 모양으로 반듯하게 커팅합니다.",
+                        "8단계 (팬닝): 오븐 팬에 간격을 두고 배열합니다.",
+                        "9단계 (표면 도포 및 굽기): 윗면에 우유를 바르고 190℃ 예열 오븐에서 18~20분간 노릇하게 굽습니다.",
+                        "10단계 (냉각): 철망에서 완전히 식혀 완성합니다."
+                    ]
+                };
+            } else if(menuName.includes("소금빵")) {
+                return {
+                    formula: "• 강력분: 250g\n• 물: 150ml\n• 인스턴트 드라이이스트: 4g\n• 설탕: 10g\n• 소금: 5g\n• 무염버터(반죽용): 20g",
+                    subTitle: "2. 버터 및 토핑 배합표 (필링/가니쉬)",
+                    subFormula: "• 충전용 고메버터 스틱: 50g (개당 5g씩 10개)\n• 프랑스산 펄소금: 적당량",
+                    ovenTemp: "200℃ / 180℃ (스팀 기능)",
+                    bakeTime: "약 12분 ~ 15분",
+                    timeLabel: "⏳ 발효 조건 (제빵)",
+                    restTime: "1차 발효 60분 / 2차 발효 40분",
+                    steps: [
+                        "1단계 (재료 계량): 강력분, 물, 이스트, 설탕, 소금, 반죽용 버터, 충전용 버터, 펄소금을 계량합니다.",
+                        "2단계 (반죽 믹싱): 반죽기에 재료를 넣고 섞다가 클린존이 형성되면 버터(20g)를 투입합니다.",
+                        "3단계 (글루텐 100%): 지문이 투명하게 비치는 최종 단계(글루텐 100%)까지 반죽을 치밉니다.",
+                        "4단계 (1차 발효): 35℃의 따뜻한 곳에서 1시간 동안 볼륨이 2배가 되도록 1차 발효합니다.",
+                        "5단계 (분할 및 중간 휴지): 60g씩 분할하여 둥글리기 후 15분간 중간 휴지합니다.",
+                        "6단계 (물방울 성형): 가스를 빼고 위는 좁고 아래는 넓은 물방울 모양으로 밀어 폅니다.",
+                        "7단계 (버터 충전 및 말기): 넓은 쪽에 충전용 고메버터 스틱을 올리고 돌돌 말아 물레방아 모양으로 성형합니다.",
+                        "8단계 (2차 발효): 35℃ 습한 발효기에서 40분간 1.5배 크기로 2차 발효합니다.",
+                        "9단계 (토핑 및 고온 굽기): 윗면에 스프레이 후 펄소금을 올리고 200℃ 고온 오븐에서 스팀을 주며 12~15분간 굽습니다.",
+                        "10단계 (완성): 바닥의 버터가 튀겨진 소금빵을 철망에 식혀 완성합니다."
+                    ]
+                };
+            } else if(menuName.includes("모카번")) {
+                return {
+                    formula: "• 강력분: 200g\n• 박력분: 50g\n• 물: 130ml\n• 인스턴트 드라이이스트: 5g\n• 설탕: 30g\n• 소금: 4g\n• 무염버터(반죽용): 30g\n• 계란: 40g",
+                    subTitle: "2. 모카 토핑 크림 배합표 (필링/토핑)",
+                    subFormula: "• 무염버터(토핑용): 50g\n• 슈가파우더: 40g\n• 계란: 40g\n• 박력분: 50g\n• 에스프레소 샷(또는 커피액): 10ml\n• 충전용 무염버터: 개당 10g씩",
+                    ovenTemp: "190℃ / 175℃",
+                    bakeTime: "약 12분 ~ 15분",
+                    timeLabel: "⏳ 발효 조건 (제빵)",
+                    restTime: "1차 발효 50분 / 2차 발효 30분",
+                    steps: [
+                        "1단계 (재료 계량): 제빵용 본반죽 재료와 모카 토핑용 크림 재료를 각각 정확히 계량합니다.",
+                        "2단계 (본반죽 믹싱 및 1차 발효): 반죽기에 버터를 제외한 재료를 섞고 클린존 후 버터를 투입해 최종 단계까지 치댄 뒤, 35℃에서 50분간 1차 발효합니다.",
+                        "3단계 (분할 및 중간 휴지): 반죽을 70g씩 분할하고 둥글리기 하여 비닐을 덮고 15분간 중간 휴지합니다.",
+                        "4단계 (버터 충전 및 성형): 반죽 속에 충전용 버터 조각(10g)을 넣고 동그랗게 빚어 이음매를 철저히 봉합니다.",
+                        "5단계 (2차 발효): 팬닝 후 35℃ 습한 발효기에서 30분간 볼륨이 1.5배가 되도록 2차 발효합니다.",
+                        "6단계 (모카 크림 제조): 부드러운 버터에 슈가파우더, 계란, 박력분, 에스프레소를 섞어 매끄러운 모카 크림을 만들고 짤주머니에 담습니다.",
+                        "7단계 (토핑 짜기): 2차 발효가 끝난 반죽 윗면에 모카 크림을 달팽이 모양(나선형)으로 겉면에 골고루 짜줍니다.",
+                        "8단계 (오븐 굽기): 190℃로 예열된 오븐에 넣고 12~15분간 구워냅니다.",
+                        "9단계 (크림 퍼짐 확인): 오븐 안에서 모카 크림이 자연스럽게 흘러내려 번 전체를 바삭하게 감싸며 구워집니다.",
+                        "10단계 (냉각): 오븐에서 꺼내어 철망에 식혀 겉은 바삭하고 속은 커피 향 가득한 모카번을 완성합니다."
+                    ]
+                };
+            } else if(menuName.includes("파운드")) {
+                return {
+                    formula: "• 박력분: 120g\n• 무염버터: 110g\n• 유기농 설탕: 100g\n• 계란(전란): 100g (2개)\n• 베이킹파우더: 3g\n• 바닐라 익스트랙: 3g",
+                    subTitle: null,
+                    subFormula: null,
+                    ovenTemp: "170℃ / 160℃",
+                    bakeTime: "약 35분 ~ 40분",
+                    timeLabel: "⏳ 반죽 휴지 조건",
+                    restTime: "반죽 휴지 없음",
+                    steps: [
+                        "1단계 (재료 계량): 박력분, 버터, 설탕, 계란, 베이킹파우더, 바닐라 익스트랙을 정확히 계량합니다.",
+                        "2단계 (버터 크림화): 실온 버터(110g)를 부드럽게 풀어줍니다.",
+                        "3단계 (설탕 투입 및 휘핑): 설탕(100g)을 나누어 넣으며 핸드믹서 고속으로 휘핑하여 하얗고 가벼운 크림 상태를 만듭니다.",
+                        "4단계 (계란 유화): 실온 계란(100g)을 나누어 넣으며 매번 완전히 유화되어 분리되지 않도록 휘핑합니다.",
+                        "5단계 (바닐라 첨가): 바닐라 익스트랙(3g)을 넣어 풍미를 더해줍니다.",
+                        "6단계 (가루류 혼합): 체 친 박력분과 베이킹파우더를 넣고 주걱으로 날가루가 안 보일 때까지 가볍게 섞습니다.",
+                        "7단계 (팬닝 전치): 파운드 틀에 유산지를 깔고 반죽을 채워 넣습니다.",
+                        "8단계 (가운데 홈 정리): 주걱으로 반죽 양옆은 높게, 가운데는 오목하게 고랑을 파주어 자연스러운 터짐을 유도합니다.",
+                        "9단계 (오븐 굽기): 170℃ 오븐에서 35~40분간 꼬치로 찔러봐서 묻어나는 것 없이 완전히 익을 때까지 굽습니다.",
+                        "10단계 (시럽 도포 및 숙성): 오븐에서 꺼내어 즉시 틀에서 분리하고, 따뜻할 때 시럽을 발라 래핑한 뒤 하루 숙성합니다."
+                    ]
+                };
+            } else if(menuName.includes("초코스틱") || menuName.includes("빼빼로") || menuName.includes("스틱")) {
+                return {
+                    formula: "• 박력분: 200g\n• 무염버터: 80g\n• 유기농 설탕: 60g\n• 계란: 50g (1개)\n• 바닐라 익스트랙: 2g",
+                    subTitle: "2. 초콜릿 및 토핑 배합표 (가니쉬)",
+                    subFormula: "• 벨기에산 커버춰 초콜릿: 200g\n• 아몬드 크런치 토핑: 50g",
+                    ovenTemp: "175℃ / 165℃",
+                    bakeTime: "약 12분 ~ 15분",
+                    timeLabel: "⏳ 반죽 휴지 조건",
+                    restTime: "냉장 휴지 30분",
+                    steps: [
+                        "1단계 (재료 계량): 박력분, 버터, 설탕, 계란, 초콜릿, 토핑을 그램 수에 맞춰 계량합니다.",
+                        "2단계 (반죽 믹싱): 실온 버터에 설탕, 계란, 바닐라를 섞고 박력분을 넣어 치대어 쿠키 반죽을 만듭니다.",
+                        "3단계 (반죽 밀어 펴기): 비닐 사이에 넣고 밀대를 이용해 4mm 두께로 균일하게 밀어 폅니다.",
+                        "4단계 (냉장 휴지): 냉장고에 넣어 30분간 단단하게 휴지시킵니다.",
+                        "5단계 (스틱 커팅): 자를 대고 일정한 길이(12cm)와 두께(0.8cm)의 스틱 형태로 반듯하게 커팅합니다.",
+                        "6단계 (오븐 굽기): 오븐 팬에 올려 175℃ 오븐에서 노릇하게 구워 철망에서 식힙니다.",
+                        "7단계 (초콜릿 중탕): 커버춰 초콜릿(200g)을 45℃에서 부드럽게 중탕 녹입니다.",
+                        "8단계 (초콜릿 템퍼링): 얼음물을 받쳐 초콜릿 온도를 31℃로 낮추어 광택이 나도록 템퍼링합니다.",
+                        "9단계 (딥핑 및 토핑): 식은 쿠키 스틱의 3분의 2 지점까지 초콜릿에 담갔다 빼고 아몬드 크런치를 뿌립니다.",
+                        "10단계 (굳히기): 유산지 위에 올려 실온 또는 냉장실에서 완전히 굳혀 완성합니다."
+                    ]
+                };
+            } else {
+                return {
+                    category: "제과",
+                    formula: "• 주원료 밀가루: 200g\n• 무염버터: 90g\n• 유기농 설탕: 70g\n• 계란: 100g (2개)\n• 우유: 50ml",
+                    subTitle: null,
+                    subFormula: null,
+                    ovenTemp: "180℃ / 170℃",
+                    bakeTime: "약 20분 ~ 25분",
+                    timeLabel: "⏳ 반죽 휴지 조건",
+                    restTime: "냉장 휴지 30분",
+                    steps: [
+                        "1단계 (정밀 계량): 모든 재료를 전자저울을 이용해 그램(g) 단위까지 정확하게 계량합니다.",
+                        "2단계 (전처리 공정): 가루류는 덩어리가 없도록 고운 체에 2회 이상 내리고, 유지류는 준비합니다.",
+                        "3단계 (반죽 베이스 믹싱): 품목의 특성에 맞추어 크림화 또는 반죽 치댐 공정을 진행합니다.",
+                        "4단계 (분할 성형): 반죽을 품목 규격에 맞춰 분할하고 매끄러운 형태로 성형합니다.",
+                        "5단계 (팬닝 작업): 오븐 팬에 테프론 시트를 깔고 반죽을 일정한 간격을 두어 팬닝합니다.",
+                        "6단계 (휴지 또는 발효): 품목에 맞는 냉장 휴지 또는 발효 공정을 진행합니다.",
+                        "7단계 (오븐 예열): 굽기 전 오븐 내부 온도를 상·하단 온도까지 정확하게 예열합니다.",
+                        "8단계 (오븐 굽기): 예열된 오븐에 넣고 지정된 시간 동안 골고루 구워내어 최적의 색상을 유도합니다.",
+                        "9단계 (아이싱/토핑): 필요시 글레이즈나 가나슈 토핑 작업을 거칩니다.",
+                        "10단계 (최종 냉각 및 포장): 오븐에서 꺼내어 그물망에서 완전히 식힌 후 완성합니다."
+                    ]
+                };
+            }
+        }
+
+        // 메뉴별 고유 밀키트 및 차등 가격 측정 함수
+        function getUniqueKitAndPrice(menuName, lvl) {
+            let kit = "";
+            let basePrice = 25000 + (lvl * 6000);
+
+            if(menuName.includes("마카롱")) {
+                kit = "프리미엄 아몬드가루 200g + 고메버터 + 라즈베리 퓨레 + 6구 투명 패키지 (16,000원)";
+                basePrice += 7000;
+            } else if(menuName.includes("타르트")) {
+                kit = "타르트링 틀 2개 + 아몬드 분말 + 바닐라빈 페이스트 + 원형 선물 박스 (17,500원)";
+                basePrice += 8000;
+            } else if(menuName.includes("까눌레")) {
+                kit = "까눌레 전용 동틀 4구 + 밀랍 블록 + 마다가스카르 바닐라빈 (18,000원)";
+                basePrice += 10000;
+            } else if(menuName.includes("휘낭시에")) {
+                kit = "이즈니 무염버터 250g + 캘리포니아 피칸 + 실리콘 휘낭시에 틀 (13,000원)";
+                basePrice += 4000;
+            } else if(menuName.includes("스콘")) {
+                kit = "트와이닝 얼그레이 찻잎 + 이즈니 버터 + 스콘 전용 커터 링 (11,500원)";
+                basePrice += 2000;
+            } else if(menuName.includes("소금빵") || menuName.includes("모카번")) {
+                kit = "프랑스산 제빵용 이즈니버터 + 강력분 1kg + 제빵용 인스턴트이스트 (13,500원)";
+                basePrice += 3500;
+            } else if(menuName.includes("파운드")) {
+                kit = "앵커 버터 250g + 알루미늄 파운드 틀 + 바닐라 익스트랙 (12,000원)";
+                basePrice += 3500;
+            } else if(menuName.includes("초코스틱") || menuName.includes("빼빼로") || menuName.includes("스틱")) {
+                kit = "수제 스틱 쿠키 반죽 + 벨기에 커버춰 초콜릿 200g + 기프트 리본 상자 (15,000원)";
+                basePrice += 5000;
+            } else {
+                kit = "맞춤형 전공 제과 밀키트 세트 + 레시피 카드가 포함된 홈베이킹 패키지 (14,000원)";
+            }
+            return { kit, price: basePrice };
+        }
+
+        // 카테고리별 대규모 DB 생성
+        function generateMassiveRecipes() {
+            let giftArr = { 1: [], 2: [], 3: [] };
+            let personalArr = { 1: [], 2: [], 3: [] };
+            let peperoArr = { 1: [], 2: [], 3: [] };
+
+            const levelMeta = {
+                1: { name: "초급", diff: "★☆☆ (초급 과정)", time: "약 30분" },
+                2: { name: "중급", diff: "★★☆ (중급 과정)", time: "약 50분" },
+                3: { name: "고급", diff: "★★★ (고급 과정)", time: "약 80분" }
+            };
+
+            const giftTitles = ["라즈베리 마카롱", "딸기 타르트", "바닐라 까눌레", "피칸 휘낭시에", "말차 루뱅쿠키", "버터 사브레", "크럼블바", "얼그레이 롤", "무화과 찰떡", "쇼콜라", "프랄리네", "티라미수 슈", "망고 스콘", "파운드", "모카번", "소금빵", "크림빵", "너츠타르트", "벌집초코", "보틀케이크"];
+            for (let i = 0; i < 120; i++) {
+                let lvl = (i % 3) + 1;
+                let tName = giftTitles[i % giftTitles.length];
+                let spec = getProductDetailedSpec(tName);
+                let kitData = getUniqueKitAndPrice(tName, lvl);
+                let fullTitle = `[${levelMeta[lvl].name}] ${tName}`;
+
+                giftArr[lvl].push({
+                    title: fullTitle,
+                    desc: `선물용으로 완벽한 ${levelMeta[lvl].name} 정밀 레시피입니다. 패키징과 풍미가 뛰어납니다.`,
+                    icon: "fa-gift",
+                    time: spec.bakeTime,
+                    diff: levelMeta[lvl].diff,
+                    classTitle: `🎁 [선물용] ${tName} Master 클래스 (#${i+1})`,
+                    classDesc: "경민대학교 실습실에서 진행되는 전문 1:1 코칭 특강입니다.",
+                    price: `${kitData.price.toLocaleString()}원 (재료/상자 포함)`,
+                    formula: spec.formula,
+                    subTitle: spec.subTitle,
+                    subFormula: spec.subFormula,
+                    ovenTemp: spec.ovenTemp,
+                    bakeTime: spec.bakeTime,
+                    timeLabel: spec.timeLabel,
+                    restTime: spec.restTime,
+                    steps: spec.steps,
+                    kit: kitData.kit
+                });
+            }
+
+            const personalTitles = ["파운드케이크", "캄파뉴", "얼그레이 스콘", "바질 베이글", "모카번", "초코 브라우니", "오리지널 소금빵", "머핀", "아포가토", "콘치즈 팡도르", "단호박 타르트", "아몬드 튀일", "자파케이크", "치아바타", "갈릭바게트", "가나슈타르트", "오레오쿠키", "피칸파이", "애플파이", "밀크티 쉬폰"];
+            for (let i = 0; i < 120; i++) {
+                let lvl = (i % 3) + 1;
+                let tName = personalTitles[i % personalTitles.length];
+                let spec = getProductDetailedSpec(tName);
+                let kitData = getUniqueKitAndPrice(tName, lvl);
+                let fullTitle = `[${levelMeta[lvl].name}] ${tName}`;
+
+                personalArr[lvl].push({
+                    title: fullTitle,
+                    desc: `혼자만의 여유를 달콤하게 채워줄 ${levelMeta[lvl].name} 홈베이킹 레시피입니다.`,
+                    icon: "fa-utensils",
+                    time: spec.bakeTime,
+                    diff: levelMeta[lvl].diff,
+                    classTitle: `🍰 [셀프] 홈카페 ${tName} 원데이 클래스 (#${i+1})`,
+                    classDesc: "집에서도 오븐 하나로 매장 맛을 구현할 수 있는 노하우 전수 과정입니다.",
+                    price: `${(kitData.price - 3000).toLocaleString()}원 (재료비 포함)`,
+                    formula: spec.formula,
+                    subTitle: spec.subTitle,
+                    subFormula: spec.subFormula,
+                    ovenTemp: spec.ovenTemp,
+                    bakeTime: spec.bakeTime,
+                    timeLabel: spec.timeLabel,
+                    restTime: spec.restTime,
+                    steps: spec.steps,
+                    kit: kitData.kit
+                });
+            }
+
+            const peperoTitles = ["아몬드 초코스틱", "화이트 핑거스틱", "견과류 빅스틱", "로즈골드 펄스틱", "말차 크런치스틱", "솔티드 카라멜스틱", "더블베리 스틱", "지브라 스트라이프", "코코넛 스틱", "피스타치오 빅스틱", "오레오 쿠키스틱", "시나몬 츄러스", "하트 프레첼", "유자 화이트스틱", "밀크티 딥핑", "카카오닙스 스틱", "체리블라썸 스틱", "누텔라 헤이즐넛", "스위트 자두스틱", "마시멜로 스모어"];
+            for (let i = 0; i < 120; i++) {
+                let lvl = (i % 3) + 1;
+                let tName = peperoTitles[i % peperoTitles.length];
+                let spec = getProductDetailedSpec("초코스틱");
+                let kitData = getUniqueKitAndPrice("초코스틱", lvl);
+                let fullTitle = `[${levelMeta[lvl].name}] ${tName}`;
+
+                peperoArr[lvl].push({
+                    title: fullTitle,
+                    desc: `11월 빼빼로데이를 겨냥한 ${levelMeta[lvl].name} 수제 초코 스틱 스페셜 레시피입니다.`,
+                    icon: "fa-heart",
+                    time: spec.bakeTime,
+                    diff: levelMeta[lvl].diff,
+                    classTitle: `🍫 [빼빼로데이] ${tName} 특강 (#${i+1})`,
+                    classDesc: "초콜릿 템퍼링부터 화려한 토핑 데코까지 완벽하게 마스터하는 시즌 한정 클래스입니다.",
+                    price: `${(kitData.price + 2000).toLocaleString()}원 (포장 패키지 포함)`,
+                    formula: spec.formula,
+                    subTitle: spec.subTitle,
+                    subFormula: spec.subFormula,
+                    ovenTemp: spec.ovenTemp,
+                    bakeTime: spec.bakeTime,
+                    timeLabel: spec.timeLabel,
+                    restTime: spec.restTime,
+                    steps: spec.steps,
+                    kit: kitData.kit
+                });
+            }
+
+            return { gift: giftArr, personal: personalArr, pepero: peperoArr };
+        }
+
+        const multiRecipeDb = generateMassiveRecipes();
+
+        function generateRecipe() {
+            const resultBox = document.getElementById('result-box');
+            resultBox.classList.remove('hidden');
+
+            const selectedLevel = parseInt(document.getElementById('skill-level').value); // 1, 2, 3
+            const list = multiRecipeDb[currentPurpose][selectedLevel]; // 정확히 해당 숙련도 배열만 필터링!
+
+            if (usedIndices[currentPurpose][selectedLevel].length >= list.length) {
+                usedIndices[currentPurpose][selectedLevel] = [];
+            }
+
+            let newIndex;
+            do {
+                newIndex = Math.floor(Math.random() * list.length);
+            } while (usedIndices[currentPurpose][selectedLevel].includes(newIndex));
+
+            usedIndices[currentPurpose][selectedLevel].push(newIndex);
+            const data = list[newIndex];
+            currentData = data;
+
+            document.getElementById('recipe-title').innerText = data.title;
+            document.getElementById('recipe-desc').innerText = data.desc;
+            document.getElementById('recipe-time').innerText = data.time;
+            document.getElementById('recipe-diff').innerText = data.diff;
+            document.getElementById('recipe-icon').className = `fa-solid ${data.icon}`;
+
+            document.getElementById('class-title').innerText = data.classTitle;
+            document.getElementById('class-desc').innerText = data.classDesc;
+            document.getElementById('class-price').innerText = data.price;
+
+            const levelNames = { 1: "초급", 2: "중급", 3: "고급" };
+            document.getElementById('ai-tip').innerText = `현재 [${levelNames[selectedLevel]}] 숙련도에 맞춤 필터링된 정밀 배합표와 10단계 마스터 공정이 설정되었습니다.`;
+
+            const matchTag = document.getElementById('match-tag');
+            matchTag.innerText = `🎯 [${levelNames[selectedLevel]}] 맞춤형 매칭 완료 (${usedIndices[currentPurpose][selectedLevel].length}/${list.length})`;
+
+            resultBox.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Modal Functions
+        function openRecipeModal() {
+            const data = currentData || multiRecipeDb['gift'][1][0];
+            document.getElementById('modal-recipe-title').innerText = data.title;
+            document.getElementById('modal-recipe-formula').innerText = data.formula;
+            
+            const subBox = document.getElementById('sub-formula-box');
+            if(data.subFormula && data.subTitle) {
+                subBox.classList.remove('hidden');
+                document.getElementById('sub-formula-title').innerText = data.subTitle;
+                document.getElementById('modal-sub-formula').innerText = data.subFormula;
+            } else {
+                subBox.classList.add('hidden');
+            }
+
+            document.getElementById('modal-oven-temp').innerText = data.ovenTemp;
+            document.getElementById('modal-bake-time').innerText = data.bakeTime;
+            document.getElementById('time-label').innerText = data.timeLabel;
+            document.getElementById('modal-rest-time').innerText = data.restTime;
+            
+            const stepsList = document.getElementById('modal-recipe-steps');
+            stepsList.innerHTML = data.steps.map((step, idx) => `
+                <li class="flex items-start space-x-2.5 bg-white p-3 rounded-xl border border-wood-100 shadow-xs">
+                    <span class="bg-wood-800 text-white font-bold rounded-full w-5 h-5 flex items-center justify-center text-[10px] flex-shrink-0 mt-0.5">${idx + 1}</span>
+                    <span class="text-wood-800 leading-relaxed">${step}</span>
+                </li>
+            `).join('');
+
+            document.getElementById('modal-kit-info').innerText = data.kit;
+            document.getElementById('recipe-modal').classList.remove('hidden');
+        }
+
+        function closeRecipeModal() {
+            document.getElementById('recipe-modal').classList.add('hidden');
+        }
+
+        function openClassModal() {
+            const data = currentData || multiRecipeDb['gift'][1][0];
+            document.getElementById('modal-class-title').innerText = data.classTitle;
+            document.getElementById('modal-class-subtitle').innerText = "📍 " + data.classTitle + " 수강 신청";
+            document.getElementById('class-modal').classList.remove('hidden');
+        }
+
+        function closeClassModal() {
+            document.getElementById('class-modal').classList.add('hidden');
+        }
+
+        function submitClassApp() {
+            const name = document.getElementById('app-name').value;
+            alert((name ? name + "님, " : "") + "수강 신청이 정상 접수되었습니다! 담당자 확인 후 안내 문자가 발송됩니다.");
+            closeClassModal();
+        }
+
+        // Initialize Selection
+        selectPurpose('gift');
+        selectTarget('lover');
+    </script>
+</body>
+</html>
